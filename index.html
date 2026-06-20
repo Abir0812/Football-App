@@ -4,330 +4,70 @@
   <title>Football Coach AI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #0b1220 0%, #1a1f3a 100%);
+      margin: 0;
+      font-family: Arial;
+      background: #0b1220;
       color: white;
       display: flex;
       justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
     }
 
     .app {
       width: 100%;
-      max-width: 550px;
+      max-width: 420px;
+      padding: 20px;
     }
 
     .hero {
-      background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
-      padding: 30px 20px;
-      border-radius: 20px;
-      text-align: center;
-      margin-bottom: 25px;
-      box-shadow: 0 8px 32px rgba(37, 99, 235, 0.3);
-    }
-
-    .hero h1 {
-      font-size: 32px;
-      margin-bottom: 10px;
-      font-weight: 700;
-    }
-
-    .hero p {
-      font-size: 16px;
-      opacity: 0.95;
-      font-weight: 500;
-    }
-
-    .card {
-      background: rgba(17, 24, 39, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 25px;
-      border-radius: 16px;
-      margin-bottom: 20px;
-      backdrop-filter: blur(10px);
-    }
-
-    .card-title {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 20px;
-      color: #93c5fd;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .card-title::before {
-      content: '';
-      display: inline-block;
-      width: 4px;
-      height: 20px;
       background: linear-gradient(135deg, #2563eb, #06b6d4);
-      border-radius: 2px;
-    }
-
-    .input-group {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      padding: 18px;
+      border-radius: 14px;
+      text-align: center;
       margin-bottom: 15px;
     }
 
-    .input-group.full {
-      grid-template-columns: 1fr;
+    .card {
+      background: #111827;
+      padding: 15px;
+      border-radius: 14px;
+      margin-top: 12px;
     }
 
     input {
       width: 100%;
-      padding: 12px;
+      padding: 10px;
+      margin: 6px 0;
       border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(31, 41, 55, 0.6);
+      border: none;
+      background: #1f2937;
       color: white;
-      font-size: 14px;
-      transition: all 0.3s ease;
-    }
-
-    input:focus {
-      outline: none;
-      border-color: #06b6d4;
-      background: rgba(31, 41, 55, 0.9);
-      box-shadow: 0 0 12px rgba(6, 182, 212, 0.3);
-    }
-
-    input::placeholder {
-      color: rgba(255, 255, 255, 0.5);
     }
 
     button {
       width: 100%;
-      padding: 14px;
+      padding: 12px;
       border: none;
       border-radius: 10px;
-      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-      color: white;
-      font-weight: 700;
-      font-size: 15px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin-top: 10px;
-      box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
-    }
-
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
-    }
-
-    button:active {
-      transform: translateY(0);
-    }
-
-    .rating-display {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-      margin-top: 20px;
-    }
-
-    .rating-item {
-      background: rgba(31, 41, 55, 0.6);
-      padding: 15px;
-      border-radius: 12px;
-      border-left: 4px solid #06b6d4;
-    }
-
-    .rating-label {
-      font-size: 13px;
-      color: #a0aec0;
-      margin-bottom: 8px;
-      font-weight: 600;
-    }
-
-    .rating-bar {
-      height: 8px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 4px;
-      overflow: hidden;
-      margin-bottom: 6px;
-    }
-
-    .rating-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #06b6d4, #2563eb);
-      border-radius: 4px;
-      transition: width 0.6s ease;
-    }
-
-    .rating-score {
-      font-size: 16px;
-      font-weight: 700;
-      color: #86efac;
-    }
-
-    .weak-areas {
-      background: rgba(220, 38, 38, 0.1);
-      border-left: 4px solid #ef4444;
-      padding: 15px;
-      border-radius: 10px;
-      margin-top: 15px;
-    }
-
-    .weak-areas-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: #fca5a5;
-      margin-bottom: 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .weak-areas-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .badge {
-      background: rgba(239, 68, 68, 0.2);
-      border: 1px solid rgba(239, 68, 68, 0.4);
-      color: #fca5a5;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .drills-section {
-      margin-top: 20px;
-    }
-
-    .drill-category {
-      background: rgba(31, 41, 55, 0.6);
-      padding: 15px;
-      border-radius: 12px;
-      margin-bottom: 12px;
-      border-left: 4px solid #fbbf24;
-    }
-
-    .drill-category-title {
-      font-size: 14px;
-      font-weight: 700;
-      color: #fbbf24;
-      margin-bottom: 8px;
-    }
-
-    .drill-item {
-      font-size: 13px;
-      color: #d1d5db;
-      margin-bottom: 6px;
-      padding-left: 16px;
-      position: relative;
-    }
-
-    .drill-item::before {
-      content: '▸';
-      position: absolute;
-      left: 0;
-      color: #06b6d4;
+      background: #22c55e;
       font-weight: bold;
+      margin-top: 10px;
     }
 
-    .analysis {
-      background: rgba(59, 130, 246, 0.1);
-      border-left: 4px solid #3b82f6;
-      padding: 15px;
-      border-radius: 10px;
-      margin-top: 15px;
-    }
-
-    .analysis-title {
-      font-size: 13px;
-      font-weight: 700;
+    .title {
+      font-weight: bold;
       color: #93c5fd;
-      margin-bottom: 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      margin-top: 10px;
     }
 
-    .analysis-text {
-      font-size: 13px;
-      color: #d1d5db;
-      line-height: 1.6;
-    }
-
-    .coach-message {
-      background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(6, 182, 212, 0.1));
-      border-left: 4px solid #22c55e;
-      padding: 15px;
-      border-radius: 10px;
-      margin-top: 15px;
-      font-style: italic;
-    }
-
-    .coach-message-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: #86efac;
-      margin-bottom: 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .coach-message-text {
+    .text {
       font-size: 14px;
-      color: #e5e7eb;
-      line-height: 1.6;
+      margin-top: 5px;
+      white-space: pre-line;
     }
 
-    #out {
-      display: none;
-      animation: slideIn 0.4s ease;
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .no-weakness {
-      background: rgba(34, 197, 94, 0.1);
-      border-left: 4px solid #22c55e;
-      padding: 15px;
-      border-radius: 10px;
-      color: #86efac;
-      font-weight: 600;
-      text-align: center;
-    }
-
-    @media (max-width: 480px) {
-      .input-group {
-        grid-template-columns: 1fr;
-      }
-
-      .hero h1 {
-        font-size: 26px;
-      }
-
-      .card {
-        padding: 20px;
-      }
-    }
+    .bad { color: #fca5a5; }
+    .good { color: #86efac; }
   </style>
 </head>
 
@@ -336,46 +76,30 @@
 <div class="app">
 
   <div class="hero">
-    <h1>⚽ Football Coach AI</h1>
-    <p>Personalized Training Plans to Elevate Your Game</p>
+    <h2>⚽ Football Coach AI</h2>
+    <p>Improve your skills step by step</p>
   </div>
 
   <div class="card">
-    <div class="card-title">Player Profile</div>
-    
-    <div class="input-group full">
-      <input id="name" placeholder="Enter Your Name">
-    </div>
+    <input id="name" placeholder="Player Name">
+    <input id="d" placeholder="Dribbling (1-10)">
+    <input id="s" placeholder="Shooting (1-10)">
+    <input id="p" placeholder="Passing (1-10)">
+    <input id="sp" placeholder="Speed (1-10)">
 
-    <div class="input-group">
-      <input id="d" placeholder="Dribbling (1-10)">
-      <input id="s" placeholder="Shooting (1-10)">
-    </div>
-
-    <div class="input-group">
-      <input id="p" placeholder="Passing (1-10)">
-      <input id="sp" placeholder="Speed (1-10)">
-    </div>
-
-    <button onclick="analyze()">🎯 Generate Training Plan</button>
+    <button onclick="analyze()">Get Training Plan</button>
   </div>
 
-  <div class="card" id="out">
+  <div class="card" id="out" style="display:none;">
 
-    <div class="card-title">Your Skill Assessment</div>
+    <div class="title">Weak Areas</div>
+    <div class="text bad" id="weak"></div>
 
-    <div class="rating-display" id="ratings"></div>
+    <div class="title">Training Plan</div>
+    <div class="text good" id="plan"></div>
 
-    <div id="weakSection"></div>
-
-    <div class="drills-section" id="drillsSection"></div>
-
-    <div id="analysisSection"></div>
-
-    <div class="coach-message">
-      <div class="coach-message-title">💬 Coach's Message</div>
-      <div class="coach-message-text" id="msg"></div>
-    </div>
+    <div class="title">Coach Message</div>
+    <div class="text" id="msg"></div>
 
   </div>
 
@@ -383,176 +107,37 @@
 
 <script>
 function analyze(){
-  let name = document.getElementById("name").value || "Player";
+  let name = document.getElementById("name").value;
   let d = +document.getElementById("d").value;
   let s = +document.getElementById("s").value;
   let p = +document.getElementById("p").value;
   let sp = +document.getElementById("sp").value;
 
-  // Validate inputs
-  if(!d || !s || !p || !sp || d < 1 || d > 10 || s < 1 || s > 10 || p < 1 || p > 10 || sp < 1 || sp > 10) {
-    alert("Please enter all ratings between 1-10");
-    return;
-  }
+  let weak = [];
 
-  let skills = {
-    "Dribbling": d,
-    "Shooting": s,
-    "Passing": p,
-    "Speed": sp
-  };
+  if(d <= 5) weak.push("Dribbling");
+  if(s <= 5) weak.push("Shooting");
+  if(p <= 5) weak.push("Passing");
+  if(sp <= 5) weak.push("Speed");
 
-  let weak = Object.keys(skills).filter(skill => skills[skill] <= 5);
-  let strong = Object.keys(skills).filter(skill => skills[skill] >= 8);
-  let average = Object.keys(skills).filter(skill => skills[skill] > 5 && skills[skill] < 8);
+  let plan = "";
 
-  // Generate ratings display
-  let ratingsHTML = "";
-  Object.entries(skills).forEach(([skill, rating]) => {
-    let percentage = (rating / 10) * 100;
-    let color = rating >= 8 ? "#86efac" : rating >= 6 ? "#fbbf24" : "#fca5a5";
-    ratingsHTML += `
-      <div class="rating-item">
-        <div class="rating-label">${skill}</div>
-        <div class="rating-bar">
-          <div class="rating-fill" style="width: ${percentage}%; background: linear-gradient(90deg, ${color}, ${color});"></div>
-        </div>
-        <div class="rating-score">${rating}/10</div>
-      </div>
-    `;
-  });
-  document.getElementById("ratings").innerHTML = ratingsHTML;
+  if(weak.includes("Shooting")) plan += "Day 1: Shooting drills\nDay 2: Finishing under pressure\n\n";
+  if(weak.includes("Dribbling")) plan += "Day 3: Cone dribbling\n\n";
+  if(weak.includes("Passing")) plan += "Day 4: Wall passing\n\n";
+  if(weak.includes("Speed")) plan += "Day 5: Sprint training\n\n";
 
-  // Weak areas section
-  let weakHTML = "";
-  if(weak.length > 0) {
-    weakHTML = `
-      <div class="weak-areas">
-        <div class="weak-areas-title">⚠️ Areas Needing Improvement</div>
-        <div class="weak-areas-list">
-          ${weak.map(w => `<div class="badge">${w}</div>`).join("")}
-        </div>
-      </div>
-    `;
-  } else {
-    weakHTML = `<div class="no-weakness">✅ Excellent! All skills are above average. Keep maintaining them!</div>`;
-  }
-  document.getElementById("weakSection").innerHTML = weakHTML;
+  if(weak.length === 0) plan = "Maintain skills + play matches";
 
-  // Drills section
-  let drillsHTML = '<div class="drills-section">';
-  drillsHTML += '<div class="card-title">📋 Personalized Training Plan</div>';
+  let msg = weak.length === 0
+    ? name + ", you are a strong player. Stay consistent."
+    : name + ", improve weak areas daily to level up.";
 
-  if(weak.includes("Shooting")) {
-    drillsHTML += `
-      <div class="drill-category">
-        <div class="drill-category-title">🎯 Shooting Drills</div>
-        <div class="drill-item">Penalty kicks - Practice 20 penalties daily to build consistency</div>
-        <div class="drill-item">Finishing under pressure - Work with a defender to practice game-realistic shots</div>
-        <div class="drill-item">Long-range shooting - Train shots from 20+ yards to expand your range</div>
-        <div class="drill-item">First-time finishing - Practice striking the ball on first touch</div>
-        <div class="drill-item">Weak foot training - Dedicate 30% of shooting practice to your weaker foot</div>
-      </div>
-    `;
-  }
-
-  if(weak.includes("Dribbling")) {
-    drillsHTML += `
-      <div class="drill-category">
-        <div class="drill-category-title">🏃 Dribbling Drills</div>
-        <div class="drill-item">Cone weaving - Set up 5-6 cones and practice tight control through them</div>
-        <div class="drill-item">Ball mastery - Focus on close ball control with different parts of the foot</div>
-        <div class="drill-item">Change of pace - Alternate between fast sprints and slow dribbles</div>
-        <div class="drill-item">1v1 practice - Work against defenders to develop evasion techniques</div>
-        <div class="drill-item">Box drills - Practice dribbling in confined spaces to improve handling</div>
-      </div>
-    `;
-  }
-
-  if(weak.includes("Passing")) {
-    drillsHTML += `
-      <div class="drill-category">
-        <div class="drill-category-title">🎲 Passing Drills</div>
-        <div class="drill-item">Wall passing - Practice one and two-touch passing against a wall</div>
-        <div class="drill-item">Rondo - Small possession game with 4-5 players in a circle</div>
-        <div class="drill-item">Long-range accuracy - Practice 30-40 yard passes to improve range</div>
-        <div class="drill-item">Through balls - Work on timing and precision for penetrating passes</div>
-        <div class="drill-item">First touch passing - Receive and pass in one motion for fluid play</div>
-      </div>
-    `;
-  }
-
-  if(weak.includes("Speed")) {
-    drillsHTML += `
-      <div class="drill-category">
-        <div class="drill-category-title">⚡ Speed & Fitness Drills</div>
-        <div class="drill-item">Sprint intervals - 10x30m sprints with 30 seconds rest between sets</div>
-        <div class="drill-item">Acceleration work - Focus on explosive first 5-10 yards from standstill</div>
-        <div class="drill-item">Agility ladder - Improve footwork and quickness with ladder drills</div>
-        <div class="drill-item">Change of direction - Practice sharp turns and directional changes</div>
-        <div class="drill-item">Endurance running - 3-4 times per week at moderate pace for match fitness</div>
-      </div>
-    `;
-  }
-
-  if(weak.length === 0) {
-    drillsHTML += `
-      <div class="drill-category">
-        <div class="drill-category-title">💪 Maintenance Program</div>
-        <div class="drill-item">Match play - Participate in competitive matches weekly</div>
-        <div class="drill-item">Skill refresh - 20 minutes daily for ball control and footwork</div>
-        <div class="drill-item">Fitness maintenance - 3 times per week cardio to stay match-fit</div>
-        <div class="drill-item">Tactical training - Work on positioning and game awareness</div>
-        <div class="drill-item">Rest and recovery - Ensure proper nutrition and sleep for performance</div>
-      </div>
-    `;
-  }
-
-  drillsHTML += '</div>';
-  document.getElementById("drillsSection").innerHTML = drillsHTML;
-
-  // Analysis section
-  let analysisText = "";
-  if(weak.length > 0) {
-    analysisText = `<strong>${name}</strong>, you're lacking in ${weak.join(" and ")}. `;
-    if(weak.includes("Shooting")) analysisText += "Your shooting accuracy needs work - focus on consistency and technique. ";
-    if(weak.includes("Dribbling")) analysisText += "Improve your close ball control and confidence on the ball. ";
-    if(weak.includes("Passing")) analysisText += "Work on accuracy and vision to be a better playmaker. ";
-    if(weak.includes("Speed")) analysisText += "Build explosive power and work on match fitness. ";
-    analysisText += `Your strong area is ${strong.length > 0 ? strong.join(" and ") : "maintaining balance"}. Use this as your foundation.`;
-  } else {
-    analysisText = `<strong>${name}</strong>, you have well-rounded skills across all areas! Your strengths are ${strong.join(", ")}. Continue building on this foundation through match experience and tactical awareness.`;
-  }
-
-  let analysisHTML = `
-    <div class="analysis">
-      <div class="analysis-title">📊 Skill Analysis</div>
-      <div class="analysis-text">${analysisText}</div>
-    </div>
-  `;
-  document.getElementById("analysisSection").innerHTML = analysisHTML;
-
-  // Coach message
-  let coachMsg = "";
-  if(weak.length === 0) {
-    coachMsg = `${name}, you're performing at an elite level! Stay consistent, play smart, and lead by example on the field. Keep challenging yourself against stronger opponents to keep improving.`;
-  } else if(weak.length === 1) {
-    coachMsg = `${name}, you have great potential! Focus intensively on ${weak[0]} this month, and you'll see significant improvements. Dedicate 30 minutes daily to targeted drills.`;
-  } else if(weak.length === 2) {
-    coachMsg = `${name}, you need to prioritize ${weak[0]} and ${weak[1]}. Create a structured training routine and track your progress. Improvement takes consistency and dedication!`;
-  } else {
-    coachMsg = `${name}, you have work to do across multiple areas, but that's okay! Start with one skill at a time, master it, then move on. Progress over perfection. Let's go!`;
-  }
-
-  document.getElementById("msg").innerText = coachMsg;
   document.getElementById("out").style.display = "block";
-  window.scrollTo(0, 0);
+  document.getElementById("weak").innerText = weak.join(", ") || "None";
+  document.getElementById("plan").innerText = plan;
+  document.getElementById("msg").innerText = msg;
 }
-
-// Allow Enter key to submit
-document.addEventListener("keypress", function(event) {
-  if(event.key === "Enter") analyze();
-});
 </script>
 
 </body>
