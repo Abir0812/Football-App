@@ -1,73 +1,269 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Football Coach AI</title>
+  <title>Football Coach AI - Personalized Training</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
+    * {
       margin: 0;
-      font-family: Arial;
-      background: #0b1220;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0b1220 0%, #1a2844 100%);
       color: white;
       display: flex;
       justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
     }
 
     .app {
       width: 100%;
-      max-width: 420px;
-      padding: 20px;
+      max-width: 900px;
     }
 
     .hero {
       background: linear-gradient(135deg, #2563eb, #06b6d4);
-      padding: 18px;
-      border-radius: 14px;
+      padding: 30px 20px;
+      border-radius: 16px;
       text-align: center;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 32px rgba(6, 182, 212, 0.3);
+    }
+
+    .hero h2 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .hero p {
+      font-size: 16px;
+      opacity: 0.95;
+    }
+
+    .input-section {
+      background: #111827;
+      padding: 20px;
+      border-radius: 14px;
+      margin-bottom: 20px;
+      border: 1px solid #1f2937;
+    }
+
+    .input-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
       margin-bottom: 15px;
     }
 
-    .card {
-      background: #111827;
-      padding: 15px;
-      border-radius: 14px;
-      margin-top: 12px;
+    @media (max-width: 600px) {
+      .input-group {
+        grid-template-columns: 1fr;
+      }
     }
 
     input {
       width: 100%;
-      padding: 10px;
-      margin: 6px 0;
+      padding: 12px;
       border-radius: 10px;
-      border: none;
+      border: 1px solid #2d3748;
       background: #1f2937;
       color: white;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #06b6d4;
+      background: #2d3748;
     }
 
     button {
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       border: none;
       border-radius: 10px;
-      background: #22c55e;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: white;
       font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .results {
+      display: none;
+      animation: slideIn 0.5s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .summary {
+      background: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .player-name {
+      font-size: 24px;
+      font-weight: bold;
+      color: #60a5fa;
+      margin-bottom: 8px;
+    }
+
+    .coach-message {
+      font-size: 14px;
+      color: #d1d5db;
+      line-height: 1.6;
       margin-top: 10px;
     }
 
-    .title {
+    .weakness-card {
+      background: #111827;
+      border: 2px solid #dc2626;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .weakness-header {
+      background: linear-gradient(135deg, #f87171, #dc2626);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .weakness-header h3 {
+      font-size: 20px;
+      margin: 0;
+      flex: 1;
+    }
+
+    .weakness-content {
+      padding: 20px;
+    }
+
+    .section-title {
       font-weight: bold;
       color: #93c5fd;
-      margin-top: 10px;
+      margin-top: 15px;
+      margin-bottom: 10px;
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
-    .text {
+    .section-text {
       font-size: 14px;
-      margin-top: 5px;
+      line-height: 1.7;
+      color: #d1d5db;
+      margin-bottom: 15px;
       white-space: pre-line;
     }
 
-    .bad { color: #fca5a5; }
-    .good { color: #86efac; }
+    .improvement-box {
+      background: rgba(34, 197, 94, 0.15);
+      border-left: 4px solid #22c55e;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+
+    .improvement-box h4 {
+      color: #86efac;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .improvement-box p {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #d1d5db;
+      margin: 0;
+    }
+
+    .video-container {
+      margin-top: 15px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #1f2937;
+      padding: 15px;
+    }
+
+    .video-item {
+      margin-bottom: 20px;
+    }
+
+    .video-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .video-title {
+      font-weight: 600;
+      color: #60a5fa;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 280px;
+      border: none;
+      border-radius: 6px;
+    }
+
+    @media (max-width: 600px) {
+      iframe {
+        height: 200px;
+      }
+    }
+
+    .no-weaknesses {
+      background: linear-gradient(135deg, #111827, #1f2937);
+      border: 2px solid #22c55e;
+      border-radius: 12px;
+      padding: 30px 20px;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .no-weaknesses h3 {
+      color: #86efac;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .no-weaknesses p {
+      color: #d1d5db;
+      font-size: 14px;
+    }
   </style>
 </head>
 
@@ -77,67 +273,164 @@
 
   <div class="hero">
     <h2>⚽ Football Coach AI</h2>
-    <p>Improve your skills step by step</p>
+    <p>Rate your skills and get personalized improvement advice</p>
   </div>
 
-  <div class="card">
-    <input id="name" placeholder="Player Name">
-    <input id="d" placeholder="Dribbling (1-10)">
-    <input id="s" placeholder="Shooting (1-10)">
-    <input id="p" placeholder="Passing (1-10)">
-    <input id="sp" placeholder="Speed (1-10)">
-
-    <button onclick="analyze()">Get Training Plan</button>
+  <div class="input-section">
+    <div class="input-group">
+      <input id="name" placeholder="Your Name" type="text">
+      <input id="dribbling" placeholder="Dribbling (1-10)" type="number" min="1" max="10">
+    </div>
+    <div class="input-group">
+      <input id="passing" placeholder="Passing (1-10)" type="number" min="1" max="10">
+      <input id="shooting" placeholder="Shooting (1-10)" type="number" min="1" max="10">
+    </div>
+    <div class="input-group">
+      <input id="pace" placeholder="Pace/Speed (1-10)" type="number" min="1" max="10">
+    </div>
+    <button onclick="analyze()">Get My Weakness Analysis</button>
   </div>
 
-  <div class="card" id="out" style="display:none;">
+  <div class="results" id="results">
+    
+    <!-- Summary -->
+    <div class="summary">
+      <div class="player-name" id="playerNameDisplay"></div>
+      <div class="coach-message" id="coachMsg"></div>
+    </div>
 
-    <div class="title">Weak Areas</div>
-    <div class="text bad" id="weak"></div>
-
-    <div class="title">Training Plan</div>
-    <div class="text good" id="plan"></div>
-
-    <div class="title">Coach Message</div>
-    <div class="text" id="msg"></div>
+    <!-- Weaknesses Container -->
+    <div id="weaknessesContainer"></div>
 
   </div>
 
 </div>
 
 <script>
-function analyze(){
-  let name = document.getElementById("name").value;
-  let d = +document.getElementById("d").value;
-  let s = +document.getElementById("s").value;
-  let p = +document.getElementById("p").value;
-  let sp = +document.getElementById("sp").value;
 
-  let weak = [];
+const skillData = {
+  "Dribbling": {
+    explanation: "Dribbling is your ability to move with the ball at your feet while maintaining close control. It's essential for evading defenders, creating space, and moving the ball up the field in tight situations.",
+    improvements: "• Keep your head up to see the field\n• Use small, quick touches instead of heavy kicks\n• Stay low with bent knees for better balance\n• Practice with both feet equally\n• Work on quick direction changes",
+    videos: [
+      { title: "Cone Dribbling & Close Control Drills", url: "ssHAKls-ii8" },
+      { title: "Dribbling Techniques & Body Feints", url: "wTxQNFMc_KE" },
+      { title: "1v1 Dribbling Moves to Beat Defenders", url: "vphnUVP3vgU" }
+    ]
+  },
+  "Passing": {
+    explanation: "Passing is your ability to deliver the ball accurately to a teammate. Good passing requires vision, timing, and the correct weight of the pass. It's the foundation of team play and keeping possession.",
+    improvements: "• Focus on accuracy over power\n• Practice one-touch passing to improve reaction time\n• Increase passing distance gradually\n• Use inside of the foot for control\n• Practice passing with both feet",
+    videos: [
+      { title: "Wall Passing & One-Touch Accuracy", url: "q7vGHpy_v0E" },
+      { title: "Passing Combinations & Team Play", url: "wUg0LwLYKNA" },
+      { title: "Triangle Passing Drills", url: "ssHAKls-ii8" }
+    ]
+  },
+  "Shooting": {
+    explanation: "Shooting is your ability to score goals. This includes accuracy, power, and the ability to finish under pressure from different angles and distances. Good shooters practice consistently and focus on technique.",
+    improvements: "• Strike through the center of the ball for power\n• Use inside of foot for accuracy and placement\n• Practice from different angles and distances\n• Work on finishing under pressure\n• Build confidence through repetition",
+    videos: [
+      { title: "Shooting Technique - Power & Placement", url: "JgUxi7wO4eM" },
+      { title: "Finishing Under Pressure Drills", url: "dHyZk1iBcQE" },
+      { title: "Clinical Finishing Combinations", url: "vAdfdyw_wy8" }
+    ]
+  },
+  "Pace/Speed": {
+    explanation: "Pace is your ability to move quickly with and without the ball. This includes explosive acceleration, maintaining high speed with the ball, and quick direction changes. Speed is crucial for both attacking and defending.",
+    improvements: "• Work on explosive first few steps\n• Practice sprinting while controlling the ball\n• Do agility ladder drills for quick feet\n• Build leg strength with squats and lunges\n• Maintain technical control at high speeds",
+    videos: [
+      { title: "Sprint Training & Explosive Acceleration", url: "vAdfdyw_wy8" },
+      { title: "HIIT Soccer Drills for Speed", url: "DajZJqus4XA" },
+      { title: "Agility Ladder & Footwork Exercises", url: "ssHAKls-ii8" }
+    ]
+  }
+};
 
-  if(d <= 5) weak.push("Dribbling");
-  if(s <= 5) weak.push("Shooting");
-  if(p <= 5) weak.push("Passing");
-  if(sp <= 5) weak.push("Speed");
+const skillNames = ["Dribbling", "Passing", "Shooting", "Pace/Speed"];
 
-  let plan = "";
+function analyze() {
+  const name = document.getElementById("name").value || "Player";
+  const dribbling = +document.getElementById("dribbling").value || 0;
+  const passing = +document.getElementById("passing").value || 0;
+  const shooting = +document.getElementById("shooting").value || 0;
+  const pace = +document.getElementById("pace").value || 0;
 
-  if(weak.includes("Shooting")) plan += "Day 1: Shooting drills\nDay 2: Finishing under pressure\n\n";
-  if(weak.includes("Dribbling")) plan += "Day 3: Cone dribbling\n\n";
-  if(weak.includes("Passing")) plan += "Day 4: Wall passing\n\n";
-  if(weak.includes("Speed")) plan += "Day 5: Sprint training\n\n";
+  const scores = {
+    "Dribbling": dribbling,
+    "Passing": passing,
+    "Shooting": shooting,
+    "Pace/Speed": pace
+  };
 
-  if(weak.length === 0) plan = "Maintain skills + play matches";
+  // Find weak areas (5 or below)
+  const weak = Object.entries(scores).filter(([skill, score]) => score > 0 && score <= 5).map(([skill]) => skill);
 
-  let msg = weak.length === 0
-    ? name + ", you are a strong player. Stay consistent."
-    : name + ", improve weak areas daily to level up.";
+  // Display Results
+  document.getElementById("results").style.display = "block";
+  document.getElementById("playerNameDisplay").innerText = `${name}'s Analysis`;
 
-  document.getElementById("out").style.display = "block";
-  document.getElementById("weak").innerText = weak.join(", ") || "None";
-  document.getElementById("plan").innerText = plan;
-  document.getElementById("msg").innerText = msg;
+  // Coach Message
+  const coachMsg = document.getElementById("coachMsg");
+  if (weak.length === 0) {
+    coachMsg.innerHTML = `Great! ${name}, you have no weak areas to focus on. Keep practicing and playing matches to maintain your skills!`;
+  } else {
+    coachMsg.innerHTML = `Hello ${name}! We found ${weak.length} area(s) where you can improve. Below is detailed information about each weakness and how to improve it.`;
+  }
+
+  // Weaknesses
+  const weaknessesContainer = document.getElementById("weaknessesContainer");
+  
+  if (weak.length === 0) {
+    weaknessesContainer.innerHTML = `
+      <div class="no-weaknesses">
+        <h3>✨ You're Strong in All Areas!</h3>
+        <p>Keep playing and practicing regularly to maintain your current level.</p>
+      </div>
+    `;
+  } else {
+    weaknessesContainer.innerHTML = weak.map(skill => `
+      <div class="weakness-card">
+        <div class="weakness-header">
+          <span>⚠️</span>
+          <h3>${skill} (Rated ${scores[skill]}/10)</h3>
+        </div>
+        <div class="weakness-content">
+          
+          <div class="section-title">What is ${skill}?</div>
+          <div class="section-text">${skillData[skill].explanation}</div>
+          
+          <div class="improvement-box">
+            <h4>💡 How to Improve ${skill}</h4>
+            <p>${skillData[skill].improvements}</p>
+          </div>
+
+          <div class="section-title">📹 Watch These Training Videos</div>
+          <div class="video-container">
+            ${skillData[skill].videos.map(video => `
+              <div class="video-item">
+                <div class="video-title">▶️ ${video.title}</div>
+                <iframe src="https://www.youtube.com/embed/${video.url}" title="${video.title}" allowfullscreen loading="lazy"></iframe>
+              </div>
+            `).join("")}
+          </div>
+
+          <div class="section-title" style="margin-top: 20px;">📋 Your Action Plan</div>
+          <div class="section-text">1️⃣ Watch all 3 videos above carefully
+2️⃣ Pick your favorite drill from each video
+3️⃣ Practice 3-4 times per week for 2-3 weeks
+4️⃣ Follow the improvement tips above
+5️⃣ Rate yourself again after 3 weeks to track progress</div>
+
+        </div>
+      </div>
+    `).join("");
+  }
+
+  // Scroll to results
+  document.getElementById("results").scrollIntoView({ behavior: "smooth", block: "start" });
 }
+
 </script>
 
 </body>
